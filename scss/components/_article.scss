@@ -1,0 +1,36 @@
+form {
+  background-color: $formBackground;
+  select {
+    cursor: pointer;
+  }
+  button {
+    border: none;
+    border-radius: 50%;
+    background-color: $expensessColor;
+    width: 35px;
+    height: 35px;
+  }
+  img {
+    width: 20px;
+    height: 20px;
+  }
+  input::placeholder {
+    color: rgb(126, 177, 150);
+  }
+  input[type="number"] {
+    width: 100px;
+  }
+  input[type="text"] {
+    width: 500px;
+  }
+  .center {
+    width: 40%;
+    margin: 0 auto;
+  }
+  .income {
+    background-color: $incomeColor;
+  }
+  .expensess {
+    background-color: $expensessColor;
+  }
+}
