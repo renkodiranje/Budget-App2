@@ -1,5 +1,5 @@
 import { Unos } from "./scriptClass.js";
-import { createRow } from "./table.js";
+import { createRow, percentInTable, income } from "./table.js";
 //Dom
 
 let currentTimeSpan = document.getElementById("currentTimeSpan");
@@ -29,8 +29,9 @@ let form = document.getElementById("form");
 let arrIncome = JSON.parse(localStorage.getItem("listOfIncome")) || [];
 
 let arrExpenses = JSON.parse(localStorage.getItem("listOfExpenses")) || [];
-let wholeArray = [];
 
+//let wholeArray = [];
+let wholeArray = JSON.parse(localStorage.getItem("whole")) || [];
 //display mont and year
 let currentTime = new Date();
 let month = currentTime.getMonth();
@@ -41,32 +42,35 @@ currentTimeSpan.textContent += nameMonth + " " + year + ":";
 
 let myFunction = (niz) => {
   let select = document.getElementById("select").value;
-  let number = Number(document.getElementById("number").value);
-  let desc = document.getElementById("description").value;
+  let number = Number(document.getElementById("number").value) || 1;
+  let desc = document.getElementById("description").value || "x";
   let x = new Unos(select, desc, number);
   niz.push(x);
   return niz;
 };
-let income = (unosi) => {
-  let sumIncome = 0;
-  for (let i = 0; i < unosi.length; i++) {
-    console.log(unosi[i].cifra);
-    if (unosi[i].sign == true) {
-      sumIncome += unosi[i].cifra;
-    }
-  }
-  return sumIncome;
-};
+
+// let income = (unosi) => {
+//   let sumIncome = 0;
+//   for (let i = 0; i < unosi.length; i++) {
+//     console.log(unosi[i].cifra);
+//     if (unosi[i].sign == true) {
+//       sumIncome += unosi[i].cifra;
+//     }
+//   }
+//   return sumIncome;
+// };
 let expensess = (unosi) => {
   let sumExpensess = 0;
   for (let i = 0; i < unosi.length; i++) {
-    if (unosi[i].sign == false) {
-      sumExpensess += unosi[i].cifra;
-      console.log(unosi[i].cifra);
+    if (unosi[i]._sign == false) {
+      sumExpensess += unosi[i]._cifra;
+      console.log(unosi[i]._cifra);
     }
+    console.log(sumExpensess);
   }
   return sumExpensess;
 };
+
 let budget = (unosi) => {
   let sumIncome = income(unosi);
   let sumExpensess = expensess(unosi);
@@ -79,21 +83,21 @@ let percentExpens = (unosi) => {
   let percent = (sumExpensess * 100) / sumIncome;
   return percent;
 };
-let percentInTable = (unosi, x) => {
-  let incomex = income(unosi);
-  let percent = (x.cifra * 100) / incomex;
-  return percent;
-};
+// let percentInTable = (unosi, x) => {
+//   let incomex = income(unosi);
+//   let percent = (x.cifra * 100) / incomex;
+//   return percent;
+// };
 addCase.addEventListener("click", (e) => {
   e.preventDefault();
   let select = document.getElementById("select").value;
-  let number = 1;
-
-  number = Number(document.getElementById("number").value);
+  console.log(select);
+  let number = Number(document.getElementById("number").value) || 1;
   let desc = document.getElementById("description").value || "x";
   if (select == "plus") {
     let unos = new Unos(select, desc, number);
     arrIncome.push(unos);
+    console.log(unos);
     let jsonIncome = JSON.stringify(arrIncome);
     localStorage.setItem("listOfIncome", jsonIncome);
   } else {
@@ -104,7 +108,8 @@ addCase.addEventListener("click", (e) => {
   }
   wholeArray = myFunction(wholeArray);
   console.log(wholeArray);
-
+  let jsonWhole = JSON.stringify(wholeArray);
+  localStorage.setItem("whole", jsonWhole);
   //income(unosi);
   let inc = income(wholeArray);
   incomeValueHeader.textContent = inc.toFixed(2);
@@ -113,6 +118,8 @@ addCase.addEventListener("click", (e) => {
   }
 
   let ex = expensess(wholeArray);
+  alert(ex);
+
   expensessValueHeader.textContent = ex.toFixed(2);
   if (ex > 0) {
     expensessValueSignHeader.textContent = "-";
@@ -132,7 +139,9 @@ addCase.addEventListener("click", (e) => {
   } else {
     expensessPercentageHeader.textContent = p.toFixed(0) + "%";
   }
+  location.reload();
 });
 createRow(tableIncome, arrIncome);
-console.log(arrIncome);
+
 createRow(tableExpensess, arrExpenses);
+console.log(arrIncome);
