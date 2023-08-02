@@ -1,5 +1,5 @@
 import { Unos } from "./scriptClass.js";
-import { createRow, percentInTable, income } from "./table.js";
+import { createRowI, createRowE, percentInTable, income } from "./table.js";
 //Dom
 
 let currentTimeSpan = document.getElementById("currentTimeSpan");
@@ -49,16 +49,6 @@ let myFunction = (niz) => {
   return niz;
 };
 
-// let income = (unosi) => {
-//   let sumIncome = 0;
-//   for (let i = 0; i < unosi.length; i++) {
-//     console.log(unosi[i].cifra);
-//     if (unosi[i].sign == true) {
-//       sumIncome += unosi[i].cifra;
-//     }
-//   }
-//   return sumIncome;
-// };
 let expensess = (unosi) => {
   let sumExpensess = 0;
   for (let i = 0; i < unosi.length; i++) {
@@ -88,6 +78,34 @@ let percentExpens = (unosi) => {
 //   let percent = (x.cifra * 100) / incomex;
 //   return percent;
 // };
+
+let inc = income(wholeArray);
+console.log(inc);
+inc = inc.toFixed(2);
+incomeValueHeader.textContent = inc;
+if (inc > 0) {
+  incomeValueSignHeader.textContent = "+";
+}
+
+let ex = expensess(wholeArray);
+
+expensessValueHeader.textContent = ex.toFixed(2);
+if (ex > 0) {
+  expensessValueSignHeader.textContent = "-";
+}
+console.log(ex);
+let a = budget(wholeArray);
+valueBudgetHeader.textContent = a.toFixed(2);
+if (a > 0) {
+  signBudgetHeader.textContent = "+";
+}
+
+let p = percentExpens(wholeArray);
+if (inc == 0) {
+  expensessPercentageHeader.textContent = "total";
+} else {
+  expensessPercentageHeader.textContent = p.toFixed(0) + "%";
+}
 addCase.addEventListener("click", (e) => {
   e.preventDefault();
   let select = document.getElementById("select").value;
@@ -111,37 +129,10 @@ addCase.addEventListener("click", (e) => {
   let jsonWhole = JSON.stringify(wholeArray);
   localStorage.setItem("whole", jsonWhole);
   //income(unosi);
-  let inc = income(wholeArray);
-  incomeValueHeader.textContent = inc.toFixed(2);
-  if (inc > 0) {
-    incomeValueSignHeader.textContent = "+";
-  }
 
-  let ex = expensess(wholeArray);
-  alert(ex);
-
-  expensessValueHeader.textContent = ex.toFixed(2);
-  if (ex > 0) {
-    expensessValueSignHeader.textContent = "-";
-  }
-  console.log(ex);
-  let a = budget(wholeArray);
-  valueBudgetHeader.textContent = a.toFixed(2);
-  if (a > 0) {
-    signBudgetHeader.textContent = "+";
-  } else if (a < 0) {
-    signBudgetHeader.textContent = "-";
-  }
-
-  let p = percentExpens(wholeArray);
-  if (inc == 0) {
-    expensessPercentageHeader.textContent = "total";
-  } else {
-    expensessPercentageHeader.textContent = p.toFixed(0) + "%";
-  }
   location.reload();
 });
-createRow(tableIncome, arrIncome);
+createRowI(tableIncome, arrIncome);
 
-createRow(tableExpensess, arrExpenses);
+createRowE(tableExpensess, wholeArray);
 console.log(arrIncome);
