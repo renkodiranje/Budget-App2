@@ -9,49 +9,48 @@ export let income = (unosi) => {
 };
 export let percentInTable = (unosi, x) => {
   let incomex = income(unosi);
-  console.log(incomex);
-  let percent = (x * 100) / incomex;
-
+  let percent = 0;
+  if (incomex != 0) {
+    percent = (x * 100) / incomex;
+  } else {
+    percent = 100;
+  }
   return percent;
 };
 
-export function createRowE(parent, arr) {
+export function createRowI(parent, arr) {
   for (let i = 0; i < arr.length; i++) {
-    let tr = document.createElement("tr");
-    let td1 = document.createElement("td");
-    let td2 = document.createElement("td");
-    let span = document.createElement("span");
-    let img = document.createElement("img");
+    if (arr[i]._sign == true) {
+      let tr = document.createElement("tr");
+      let td1 = document.createElement("td");
+      let td2 = document.createElement("td");
+      let span = document.createElement("span");
+      let img = document.createElement("img");
 
-    img.src = "image/button.webp";
-    img.alt = "delete";
-    img.addEventListener("click", (e) => {
-      e.target.parentNode.parentNode.remove();
-
-      let index = 0;
-      for (let i = 0; i < arr.length; i++) {
+      img.src = "image/button.webp";
+      img.alt = "delete";
+      img.addEventListener("click", (e) => {
+        let index = undefined;
         if (
-          e.target.parentNode.childNodes[0].textContent == arr[i][0] &&
-          e.target.parentNode.childNodes[1].textContent.includes(arr[i][1])
+          e.target.parentNode.parentNode.childNodes[0].textContent ==
+            arr[i]._description &&
+          Number(
+            e.target.parentNode.parentNode.childNodes[1].childNodes[1]
+              .textContent
+          ) == arr[i]._cifra
         ) {
           index = i;
         }
         arr.splice(index, 1);
 
         localStorage.setItem("whole", JSON.stringify(arr));
-      }
-    });
-    td1.innerHTML = arr[i]._description;
-    td2.innerHTML = arr[i]._cifra;
-    // console.log(arr[i]._cifra);
+        location.reload();
+      });
 
-    if (arr[i]._sign == false) {
-      let button = document.createElement("button");
-      let btn = percentInTable(arr, arr[i]._cifra);
-      button.textContent = btn.toFixed(0) + "%";
-      console.log(arr);
-      span.innerHTML = "-";
-      td2.append(button);
+      td1.innerHTML = arr[i]._description;
+      td2.innerHTML = arr[i]._cifra;
+      span.innerHTML = "+";
+
       td2.prepend(span);
       td2.append(img);
       tr.append(td1, td2);
@@ -59,79 +58,44 @@ export function createRowE(parent, arr) {
     }
   }
 }
-export function createRowI(parent, arr) {
+export function createRowE(parent, arr) {
   for (let i = 0; i < arr.length; i++) {
-    let tr = document.createElement("tr");
-    let td1 = document.createElement("td");
-    let td2 = document.createElement("td");
-    let span = document.createElement("span");
-    let img = document.createElement("img");
-
-    img.src = "image/button.webp";
-    img.alt = "delete";
-    img.addEventListener("click", (e) => {
-      e.target.parentNode.parentNode.remove();
-
-      let index = 0;
-      for (let i = 0; i < arr.length; i++) {
-        if (
-          e.target.parentNode.childNodes[0].textContent == arr[i][0] &&
-          e.target.parentNode.childNodes[1].textContent.includes(arr[i][1])
-        ) {
-          index = i;
-        }
-        arr.splice(index, 1);
-
-        localStorage.setItem("listOfIncome", JSON.stringify(arr));
-      }
-    });
-    td1.innerHTML = arr[i]._description;
-    td2.innerHTML = arr[i]._cifra;
-    // console.log(arr[i]._cifra);
-
-    span.innerHTML = "+";
-
-    td2.prepend(span);
-    td2.append(img);
-    tr.append(td1, td2);
-    parent.append(tr);
-  }
-}
-export function createRowM(parent, arr) {
-  for (let i = 0; i < arr.length; i++) {
-    let tr = document.createElement("tr");
-    let td1 = document.createElement("td");
-    let td2 = document.createElement("td");
-    let span = document.createElement("span");
-    let img = document.createElement("img");
-
-    img.src = "image/button.webp";
-    img.alt = "delete";
-    img.addEventListener("click", (e) => {
-      e.target.parentNode.parentNode.remove();
-
-      let index = 0;
-      for (let i = 0; i < arr.length; i++) {
-        if (
-          e.target.parentNode.childNodes[0].textContent == arr[i][0] &&
-          e.target.parentNode.childNodes[1].textContent.includes(arr[i][1])
-        ) {
-          index = i;
-        }
-        arr.splice(index, 1);
-
-        localStorage.setItem("whole", JSON.stringify(arr));
-      }
-    });
-    td1.innerHTML = arr[i]._description;
-    td2.innerHTML = arr[i]._cifra;
-    // console.log(arr[i]._cifra);
-
+    console.log(arr[i]._sign);
     if (arr[i]._sign == false) {
+      let tr = document.createElement("tr");
+      let td1 = document.createElement("td");
+      let td2 = document.createElement("td");
+      let span = document.createElement("span");
+      let img = document.createElement("img");
+
+      img.src = "image/button.webp";
+      img.alt = "delete";
+      td1.innerHTML = arr[i]._description;
+      td2.innerHTML = arr[i]._cifra;
+      img.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        let index = undefined;
+
+        if (
+          e.target.parentNode.parentNode.childNodes[0].textContent ==
+            arr[i]._description &&
+          Number(
+            e.target.parentNode.parentNode.childNodes[1].childNodes[1]
+              .textContent
+          ) == arr[i]._cifra
+        ) {
+          index = i;
+        }
+        console.log(index);
+        arr.splice(index, 1);
+        localStorage.setItem("whole", JSON.stringify(arr));
+        location.reload();
+      });
+
       let button = document.createElement("button");
       let btn = percentInTable(arr, arr[i]._cifra);
       button.textContent = btn.toFixed(0) + "%";
-      console.log(arr);
       span.innerHTML = "-";
       td2.append(button);
       td2.prepend(span);
