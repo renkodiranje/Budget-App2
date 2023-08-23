@@ -25,11 +25,12 @@ export function createRowI(parent, arr) {
       let td1 = document.createElement("td");
       let td2 = document.createElement("td");
       let span = document.createElement("span");
-      let img = document.createElement("img");
+      let buttonDelete = document.createElement("button");
+      buttonDelete.setAttribute("id", "buttonDelete");
 
-      img.src = "image/button.webp";
-      img.alt = "delete";
-      img.addEventListener("click", (e) => {
+      buttonDelete.innerHTML = "&times;";
+
+      buttonDelete.addEventListener("click", (e) => {
         let index = undefined;
         if (
           e.target.parentNode.parentNode.childNodes[0].textContent ==
@@ -52,7 +53,7 @@ export function createRowI(parent, arr) {
       span.innerHTML = "+";
 
       td2.prepend(span);
-      td2.append(img);
+      td2.append(buttonDelete);
       tr.append(td1, td2);
       parent.append(tr);
     }
@@ -60,19 +61,18 @@ export function createRowI(parent, arr) {
 }
 export function createRowE(parent, arr) {
   for (let i = 0; i < arr.length; i++) {
-    console.log(arr[i]._sign);
     if (arr[i]._sign == false) {
       let tr = document.createElement("tr");
       let td1 = document.createElement("td");
       let td2 = document.createElement("td");
       let span = document.createElement("span");
-      let img = document.createElement("img");
+      let buttonDelete = document.createElement("button");
+      buttonDelete.setAttribute("id", "buttonDelete");
 
-      img.src = "image/button.webp";
-      img.alt = "delete";
+      buttonDelete.innerHTML = "&times;";
       td1.innerHTML = arr[i]._description;
       td2.innerHTML = arr[i]._cifra;
-      img.addEventListener("click", (e) => {
+      buttonDelete.addEventListener("click", (e) => {
         e.preventDefault();
 
         let index = undefined;
@@ -87,19 +87,20 @@ export function createRowE(parent, arr) {
         ) {
           index = i;
         }
-        console.log(index);
+
         arr.splice(index, 1);
         localStorage.setItem("whole", JSON.stringify(arr));
         location.reload();
       });
 
-      let button = document.createElement("button");
+      let buttonPercent = document.createElement("button");
+      buttonPercent.setAttribute("id", "buttonPercent");
       let btn = percentInTable(arr, arr[i]._cifra);
-      button.textContent = btn.toFixed(0) + "%";
+      buttonPercent.textContent = btn.toFixed(0) + "%";
       span.innerHTML = "-";
-      td2.append(button);
+      td2.append(buttonPercent);
       td2.prepend(span);
-      td2.append(img);
+      td2.append(buttonDelete);
       tr.append(td1, td2);
       parent.append(tr);
     }

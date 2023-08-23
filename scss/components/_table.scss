@@ -12,12 +12,21 @@ table {
   tr {
     border-bottom: 1px solid rgb(151, 148, 148);
     position: relative;
-    img {
+    img,
+    #buttonDelete {
       display: none;
       float: right;
-      width: 30px;
-      height: 30px;
+      width: 23px;
+      height: 23px;
       margin-left: 5px;
+      color: white;
+      background-color: red;
+      border-radius: 5%;
+      line-height: 1vh;
+      border: none;
+      font-weight: 900;
+      font-size: 20px;
+      padding: 5px;
     }
   }
   td {
@@ -29,12 +38,14 @@ table {
   td:first-child {
     color: rgb(59, 144, 59);
   }
-  tr:hover img {
+  tr:hover img,
+  tr:hover #buttonDelete {
     display: inline;
     opacity: 0.8;
   }
   tr {
-    img:hover {
+    img:hover,
+    #buttonDelete:hover {
       opacity: 1;
     }
   }
@@ -57,7 +68,7 @@ table {
       margin: 0;
       padding: 0;
     }
-    button {
+    #buttonPercent {
       height: 5px;
       line-height: 3px;
       border: none;
